@@ -1,0 +1,15 @@
+# Local development
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
