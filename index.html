@@ -20,20 +20,47 @@
     .system-note .status-dot { display: inline-block; margin-right: 6px; }
     .tag { border-color: #d7bd72; background: #fff8e5; color: #765b12; }
     .score-panel { background: var(--ink); }
+    body { background-color: #f5f8fc; background-image: linear-gradient(rgba(16,42,86,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(16,42,86,.045) 1px, transparent 1px); background-size: 28px 28px; }
+    .shell { background: rgba(245,248,252,.86); }
+    .brand-mark { position: relative; width: 55px; height: 45px; display: inline-block; background: transparent; }
+    .brand-mark svg { width: 100%; height: 100%; overflow: visible; }
+    .brand-mark svg text { fill: #fff; font: 700 8px Arial, sans-serif; letter-spacing: .3px; }
+    .logo-star, .logo-ribbon { fill: var(--gold); }
+    .logo-head, .logo-figure { fill: var(--ink); }
+    .brand-copy { display: flex; align-items: baseline; gap: 10px; }
+    .brand-copy strong { font-size: 18px; }
+    .brand-copy small { color: var(--muted); font: 9px/1.25 var(--mono); letter-spacing: .03em; text-transform: uppercase; }
+    .intro h1 em { font-family: var(--sans); font-style: normal; font-weight: 700; }
+    .engineering-stamp { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #c7d5e7; background: rgba(255,255,255,.72); padding: 8px 11px; margin-top: 24px; color: var(--ink); font: 10px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .engineering-stamp::before { content: '∿'; color: var(--gold); font-size: 18px; }
+    .system-role-card { border-top: 3px solid var(--gold); }
+    @media (max-width: 650px) { .brand-copy small { display: none; } }
   </style>
 </head>
 <body>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="#top"><span class="brand-mark">U</span><span>UCCD</span></a>
+      <a class="brand" href="#top" aria-label="University Center for Career Development home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 72 58" role="img" aria-label="UCCD logo">
+            <path class="logo-star" d="M15 3l3.5 9.2 9.8.5-7.6 6.2 2.5 9.5-8.2-5.2-8.2 5.2 2.5-9.5-7.6-6.2 9.8-.5z" />
+            <circle class="logo-head" cx="39" cy="17" r="5" />
+            <path class="logo-figure" d="M34 21c-6 9-11 15-17 19 14-1 26-4 32-12 2-3 2-7 1-10-3 5-7 7-11 7z" />
+            <path class="logo-ribbon" d="M16 34c14 5 32 3 48-5 4-2 7 0 6 4-1 5-10 8-18 10-17 4-32 3-42-2-5-3-5-9 6-7z" />
+            <text x="22" y="42">UCCD</text>
+          </svg>
+        </span>
+        <span class="brand-copy"><strong>UCCD</strong><small>University Center<br>for Career Development</small></span>
+      </a>
       <div class="topbar-meta"><span class="status-dot"></span><span>UCCD talent workspace</span><span class="mono">v0.1</span></div>
     </header>
 
     <main id="top">
       <section class="intro">
-        <div class="eyebrow">UCCD CV intelligence studio</div>
-        <h1>Make every application<br><em>read sharper.</em></h1>
-        <p class="intro-copy">Turn a CV and a role description into a clear hiring signal: who this person is, how they fit, and what needs fixing before the next send.</p>
+        <div class="eyebrow">University Center for Career Development</div>
+        <h1>Engineer your next<br><em>opportunity.</em></h1>
+        <p class="intro-copy">UCCD helps engineering candidates turn their CV into a clearer technical signal: what they can build, how they solve problems, and what needs fixing before the next send.</p>
+        <div class="engineering-stamp">Career development · engineering track</div>
       </section>
 
       <section class="workspace-grid">
@@ -49,8 +76,8 @@
           </div>
           <div class="input-card job-card system-role-card">
             <div class="card-label"><span>System target role</span><span class="file-type">UCCD BENCHMARK</span></div>
-            <h3>UCCD Product Designer</h3>
-            <p>We are looking for a Product Designer with experience in user research, Figma, prototyping, design systems, and usability testing. The role improves product activation across web and mobile products and communicates clearly with engineering and product teams.</p>
+            <h3>UCCD Engineering Track</h3>
+            <p>We are looking for an engineering candidate with strong technical fundamentals, analytical problem-solving, project experience, teamwork, clear communication, and the ability to turn requirements into reliable solutions.</p>
             <span class="system-note"><span class="status-dot"></span> Applied automatically during analysis</span>
           </div>
           <button class="analyze-button" id="analyze-button"><span>Run analysis</span><span class="button-arrow">↗</span></button>
@@ -59,7 +86,7 @@
 
         <div class="results-column" id="results-column">
           <div class="section-heading results-heading"><span class="step">02</span><div><h2>Read the signal</h2><p id="results-subtitle">Your analysis will appear here.</p></div></div>
-          <div class="empty-state" id="empty-state"><div class="empty-mark">✦</div><h3>Ready when you are</h3><p>Add a CV and a role description to see the fit, the facts, and the fixes.</p><div class="empty-line"></div><span class="mono">ANALYSIS ENGINE · LOCAL DEMO</span></div>
+          <div class="empty-state" id="empty-state"><div class="empty-mark">✦</div><h3>Ready to inspect the signal</h3><p>Upload an engineering CV to see technical evidence, candidate facts, and the fixes.</p><div class="empty-line"></div><span class="mono">UCCD ANALYSIS ENGINE · LOCAL DEMO</span></div>
           <div class="results" id="results" hidden>
             <div class="score-panel"><div><span class="card-label">ROLE FIT</span><h3 id="fit-label">Strong potential</h3><p id="fit-summary">A quick read of the evidence in this CV.</p></div><div class="score-ring"><strong id="score-number">0</strong><span>/ 100</span></div></div>
             <div class="stat-grid"><div class="stat"><span class="card-label">EXPERIENCE</span><strong id="experience-value">—</strong></div><div class="stat"><span class="card-label">SKILLS FOUND</span><strong id="skills-value">—</strong></div><div class="stat"><span class="card-label">SIGNAL QUALITY</span><strong id="quality-value">—</strong></div></div>

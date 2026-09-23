@@ -6,7 +6,7 @@ const analyzeButton = document.querySelector('#analyze-button');
 const emptyState = document.querySelector('#empty-state');
 const results = document.querySelector('#results');
 const resultsSubtitle = document.querySelector('#results-subtitle');
-const systemJobDescription = 'We are looking for a Product Designer with experience in user research, Figma, prototyping, design systems, and usability testing. The role improves product activation across web and mobile products and communicates clearly with engineering and product teams.';
+const systemJobDescription = 'We are looking for an engineering candidate with strong technical fundamentals, analytical problem-solving, project experience, teamwork, clear communication, and the ability to turn requirements into reliable solutions.';
      //هنا بنعدل ال job describtion
     
 cvInput.addEventListener('change', () => loadFile(cvInput.files[0]));
@@ -91,7 +91,7 @@ function analyze(cv, job) {
   document.querySelector('#issue-list').innerHTML = issues.map((issue) => `<div class="issue ${issue.good ? 'good' : ''}"><span class="issue-dot"></span><div><strong>${issue.title}</strong><p>${issue.detail}</p></div></div>`).join('');
   emptyState.hidden = true;
   results.hidden = false;
-  resultsSubtitle.textContent = `Completed just now · UCCD Product Designer · ${matches.length} role signals found`;
+  resultsSubtitle.textContent = `Completed just now · UCCD Engineering Track · ${matches.length} role signals found`;
   results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
