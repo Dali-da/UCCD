@@ -17,6 +17,29 @@ py -m http.server 4173
 
 Open http://localhost:4173 in a browser.
 
+## Start it without VS Code
+
+On Windows, double-click `start-uccd.bat` in the project folder. It starts the local server and opens the app in your default browser. Keep the server window open while using the app. Close that window when you are finished.
+
+If the page stops loading later, double-click `start-uccd.bat` again, or run this from the project folder:
+
+```powershell
+py -m http.server 4173
+```
+
+## Share it with someone
+
+For a public link, publish the `dalia` branch with GitHub Pages:
+
+1. Push the project to GitHub with `git push -u origin dalia`.
+2. Open the repository on GitHub and choose **Settings**.
+3. Open **Pages** under **Code and automation**.
+4. Under **Build and deployment**, choose **Deploy from a branch**.
+5. Select branch `dalia` and folder `/ (root)`, then choose **Save**.
+6. GitHub will give you a link similar to `https://YOUR_USERNAME.github.io/UCCD/`.
+
+Send that link to anyone. They will not need VS Code or Python. The PDF/DOCX readers are loaded from a CDN, so users need an internet connection for document extraction.
+
 ## Next build step: real AI analysis
 
 The current `app.js` keeps analysis local and deterministic. PDF and DOCX text are extracted in the browser using CDN-hosted PDF.js and Mammoth. For production, add a server endpoint that:
