@@ -1,6 +1,6 @@
 # ResumeLens
 
-ResumeLens is a browser-first prototype for CV intelligence. It accepts CV text and a job description, then returns:
+UCCD is a browser-first prototype for CV intelligence. It accepts PDF, DOCX, TXT, or MD CV files and automatically compares them with the built-in UCCD Product Designer role benchmark, then returns:
 
 - Candidate details such as name, email, phone, and location
 - An explainable keyword-based role-fit score
@@ -19,7 +19,7 @@ Open http://localhost:4173 in a browser.
 
 ## Next build step: real AI analysis
 
-The current `app.js` intentionally keeps analysis local and deterministic. For production, add a server endpoint that:
+The current `app.js` keeps analysis local and deterministic. PDF and DOCX text are extracted in the browser using CDN-hosted PDF.js and Mammoth. For production, add a server endpoint that:
 
 1. Extracts text from PDF and DOCX uploads.
 2. Sends the CV and job description to a chosen LLM provider.

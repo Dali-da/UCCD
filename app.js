@@ -1,38 +1,66 @@
 const cvInput = document.querySelector('#cv-file');
 const cvText = document.querySelector('#cv-text');
-const jobText = document.querySelector('#job-text');
 const dropzone = document.querySelector('#dropzone');
 const fileLabel = document.querySelector('#file-label');
 const analyzeButton = document.querySelector('#analyze-button');
 const emptyState = document.querySelector('#empty-state');
 const results = document.querySelector('#results');
 const resultsSubtitle = document.querySelector('#results-subtitle');
-
+const systemJobDescription = 'We are looking for a Product Designer with experience in user research, Figma, prototyping, design systems, and usability testing. The role improves product activation across web and mobile products and communicates clearly with engineering and product teams.';
+     //هنا بنعدل ال job describtion
+    
 cvInput.addEventListener('change', () => loadFile(cvInput.files[0]));
 dropzone.addEventListener('dragover', (event) => { event.preventDefault(); dropzone.classList.add('dragging'); });
 dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragging'));
 dropzone.addEventListener('drop', (event) => { event.preventDefault(); dropzone.classList.remove('dragging'); loadFile(event.dataTransfer.files[0]); });
 
-function loadFile(file) {
+async function loadFile(file) {
   if (!file) return;
   fileLabel.textContent = file.name;
-  if (!/text|markdown/.test(file.type) && !/\.(txt|md|text)$/i.test(file.name)) {
-    cvText.value = `The browser demo can read text files directly.\n\n${file.name} is selected, but PDF/DOCX extraction belongs in the server analysis layer.`;
-    return;
+  cvText.value = `Reading ${file.name}...`;
+  try {
+    const extension = file.name.split('.').pop().toLowerCase();
+    if (extension === 'pdf' || file.type === 'application/pdf') {
+      cvText.value = await extractPdfText(file);
+    } else if (extension === 'docx' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      const result = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+      cvText.value = result.value.trim();
+    } else if (extension === 'doc' || file.type === 'application/msword') {
+      throw new Error('Legacy .doc files are accepted, but please save them as .docx for browser text extraction.');
+    } else if (/text|markdown/.test(file.type) || /\.(txt|md|text)$/i.test(file.name)) {
+      cvText.value = await file.text();
+    } else {
+      throw new Error('Please choose a PDF, DOCX, TXT, or MD file.');
+    }
+    if (!cvText.value.trim()) throw new Error('No readable text was found in this file.');
+  } catch (error) {
+    cvText.value = '';
+    fileLabel.textContent = `${file.name} · could not read`;
+    cvText.placeholder = error.message;
   }
-  const reader = new FileReader();
-  reader.onload = () => { cvText.value = reader.result; };
-  reader.readAsText(file);
+}
+
+async function extractPdfText(file) {
+  if (!window.pdfjsLib) throw new Error('PDF reader is unavailable. Check your internet connection and try again.');
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+  const pages = [];
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    const page = await pdf.getPage(pageNumber);
+    const content = await page.getTextContent();
+    pages.push(content.items.map((item) => item.str).join(' '));
+  }
+  return pages.join('\n\n').trim();
 }
 
 analyzeButton.addEventListener('click', () => {
   const cv = cvText.value.trim();
-  const job = jobText.value.trim();
-  if (!cv || !job) {
-    [cvText, jobText].forEach((field) => { if (!field.value.trim()) { field.style.boxShadow = 'inset 0 -2px 0 var(--coral)'; setTimeout(() => field.style.boxShadow = '', 1200); } });
+  if (!cv) {
+    cvText.style.boxShadow = 'inset 0 -2px 0 var(--gold)';
+    setTimeout(() => cvText.style.boxShadow = '', 1200);
     return;
   }
-  analyze(cv, job);
+  analyze(cv, systemJobDescription);
 });
 
 function analyze(cv, job) {
@@ -63,7 +91,7 @@ function analyze(cv, job) {
   document.querySelector('#issue-list').innerHTML = issues.map((issue) => `<div class="issue ${issue.good ? 'good' : ''}"><span class="issue-dot"></span><div><strong>${issue.title}</strong><p>${issue.detail}</p></div></div>`).join('');
   emptyState.hidden = true;
   results.hidden = false;
-  resultsSubtitle.textContent = `Completed just now · ${matches.length} role signals found`;
+  resultsSubtitle.textContent = `Completed just now · UCCD Product Designer · ${matches.length} role signals found`;
   results.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
